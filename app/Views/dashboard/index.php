@@ -136,51 +136,48 @@
 
     <div class="row g-4">
         <!-- Sales Chart -->
-        <div class="col-lg-7">
-            <div class="dashboard-card p-4">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h5 class="fw-bold m-0">Weekly Sales Overview</h5>
-                    <div class="dropdown">
-                        <button class="btn btn-sm btn-light border" type="button">Last 7 Days</button>
-                    </div>
+        <div class="col-lg-8">
+            <div class="dashboard-card p-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="fw-bold m-0 small text-uppercase tracking-wider text-muted">Weekly Sales</h6>
+                    <span class="badge bg-light text-dark border fw-normal">Last 7 Days</span>
                 </div>
-                <canvas id="salesChart" height="280"></canvas>
+                <div style="height: 180px;">
+                    <canvas id="salesChart"></canvas>
+                </div>
             </div>
         </div>
 
         <!-- Recent Transactions -->
-        <div class="col-lg-5">
+        <div class="col-lg-4">
             <div class="dashboard-card h-100">
-                <div class="card-header-custom">
-                    <h5 class="card-title-custom">Recent Transactions</h5>
-                    <a href="#" class="btn btn-sm btn-outline-primary px-3 rounded-pill">View All</a>
+                <div class="card-header-custom py-2 px-3">
+                    <h6 class="card-title-custom small text-uppercase tracking-wider text-muted">Recent Activity</h6>
+                    <a href="#" class="btn btn-sm btn-link text-decoration-none p-0 small">View All</a>
                 </div>
                 <div class="p-0">
                     <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0">
+                        <table class="table table-hover align-middle mb-0" style="font-size: 0.85rem;">
                             <thead class="bg-light">
                                 <tr class="smaller text-muted">
-                                    <th class="ps-4 border-0">ID</th>
-                                    <th class="border-0">Amount</th>
-                                    <th class="border-0">Date</th>
-                                    <th class="pe-4 border-0">Status</th>
+                                    <th class="ps-3 border-0 py-1">ID</th>
+                                    <th class="border-0 py-1">Amount</th>
+                                    <th class="pe-3 border-0 py-1 text-end">Time</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php if(!empty($recentTransactions)): ?>
                                     <?php foreach($recentTransactions as $tx): ?>
                                         <tr>
-                                            <td class="ps-4 fw-semibold">#<?= $tx['sale_id'] ?></td>
+                                            <td class="ps-3 fw-semibold">#<?= $tx['sale_id'] ?></td>
                                             <td class="fw-bold">₱ <?= number_format($tx['total_amount'], 2) ?></td>
-                                            <td class="text-muted small"><?= date('h:i A', strtotime($tx['date'])) ?></td>
-                                            <td class="pe-4"><span class="badge bg-success-subtle text-success px-3">Paid</span></td>
+                                            <td class="pe-3 text-muted text-end"><?= date('h:i A', strtotime($tx['date'])) ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else: ?>
                                     <tr>
-                                        <td colspan="4" class="text-center py-5 text-muted">
-                                            <i class="fas fa-receipt fs-1 mb-3 d-block opacity-25"></i>
-                                            No transactions yet today
+                                        <td colspan="3" class="text-center py-4 text-muted small">
+                                            No transactions yet
                                         </td>
                                     </tr>
                                 <?php endif; ?>
@@ -220,21 +217,28 @@
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    top: 10,
+                    bottom: 0
+                }
+            },
             plugins: {
                 legend: { display: false }
             },
             scales: {
                 y: {
                     beginAtZero: true,
-                    grid: { color: '#f1f5f9' },
+                    grid: { color: '#f8fafc', drawBorder: false },
                     ticks: {
                         callback: function(value) { return '₱' + value; },
-                        font: { family: 'Inter', size: 11 }
+                        font: { family: 'Inter', size: 10 },
+                        maxTicksLimit: 5
                     }
                 },
                 x: {
-                    grid: { display: false },
-                    ticks: { font: { family: 'Inter', size: 11 } }
+                    grid: { display: false, drawBorder: false },
+                    ticks: { font: { family: 'Inter', size: 10 } }
                 }
             }
         }
