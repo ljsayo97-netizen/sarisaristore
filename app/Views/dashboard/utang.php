@@ -11,11 +11,15 @@
     
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; color: #334155; }
-        .sidebar { width: 260px; height: 100vh; background: #1e293b; color: white; position: fixed; transition: 0.3s; z-index: 1000; }
+        .sidebar { width: 260px; height: 100vh; background: #1e293b; color: white; position: fixed; transition: 0.3s; z-index: 1000; display: flex; flex-direction: column; }
         .main-content { margin-left: 260px; padding: 30px; }
         .nav-link { color: #94a3b8; padding: 12px 20px; border-radius: 8px; margin: 5px 15px; display: flex; align-items: center; text-decoration: none; transition: 0.2s; }
         .nav-link:hover, .nav-link.active { background: #334155; color: white; }
         .nav-link i { width: 25px; font-size: 1.1rem; }
+        
+        .sidebar-bottom { margin-top: auto; padding-bottom: 20px; }
+        .logout-nav-link { color: #f87171 !important; }
+        .logout-nav-link:hover { background: #450a0a !important; color: white !important; }
         
         .top-nav { background: white; padding: 15px 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; border-radius: 12px; }
         .logout-btn { background: #fee2e2; color: #ef4444; border: none; padding: 8px 18px; border-radius: 10px; font-weight: 600; text-decoration: none; }
@@ -36,7 +40,7 @@
 <!-- Sidebar -->
 <div class="sidebar">
     <div class="p-4 text-center">
-        <h4 class="fw-bold m-0"><i class="fas fa-store text-info me-2"></i>SariStore</h4>
+        <h4 class="fw-bold m-0"><i class="fas fa-store text-info me-2"></i>Arlin's Sari-Sari Store</h4>
         <small class="text-muted">Admin Dashboard</small>
     </div>
     <hr class="mx-3 opacity-25">
@@ -48,6 +52,13 @@
         <a href="<?= base_url('utang') ?>" class="nav-link active"><i class="fas fa-hand-holding-usd"></i> Utang Tracking</a>
         <a href="<?= base_url('users') ?>" class="nav-link"><i class="fas fa-user-shield"></i> User Management</a>
     </nav>
+    
+    <div class="sidebar-bottom">
+        <hr class="mx-3 opacity-25">
+        <a href="<?= base_url('logout') ?>" class="nav-link logout-nav-link">
+            <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+        </a>
+    </div>
 </div>
 
 <!-- Main Content -->
@@ -56,9 +67,6 @@
         <h5 class="m-0 fw-semibold text-secondary">Utang (Debit) Tracking</h5>
         <div class="d-flex align-items-center">
             <span class="me-3 text-muted small">Welcome, <?= session()->get('name') ?></span>
-            <a href="<?= base_url('logout') ?>" class="logout-btn">
-                <i class="fas fa-sign-out-alt me-2"></i> Logout
-            </a>
         </div>
     </div>
 

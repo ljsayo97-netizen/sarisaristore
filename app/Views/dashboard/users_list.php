@@ -10,15 +10,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
-        .sidebar { width: 260px; height: 100vh; background: #1e293b; color: white; position: fixed; transition: 0.3s; z-index: 1000; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; color: #334155; }
+        .sidebar { width: 260px; height: 100vh; background: #1e293b; color: white; position: fixed; transition: 0.3s; z-index: 1000; display: flex; flex-direction: column; }
         .main-content { margin-left: 260px; padding: 30px; }
-        .nav-link { color: #94a3b8; padding: 12px 20px; border-radius: 8px; margin: 5px 15px; display: flex; align-items: center; text-decoration: none; }
+        .nav-link { color: #94a3b8; padding: 12px 20px; border-radius: 8px; margin: 5px 15px; display: flex; align-items: center; text-decoration: none; transition: 0.2s; }
         .nav-link:hover, .nav-link.active { background: #334155; color: white; }
         .nav-link i { width: 25px; font-size: 1.1rem; }
         
-        .card { border: none; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
-        .top-nav { background: white; padding: 15px 30px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; border-radius: 15px; }
+        .sidebar-bottom { margin-top: auto; padding-bottom: 20px; }
+        .logout-nav-link { color: #f87171 !important; }
+        .logout-nav-link:hover { background: #450a0a !important; color: white !important; }
+
+        .top-nav { background: white; padding: 15px 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; border-radius: 12px; }
         
         /* Premium Table Styling */
         .table thead th { background: #f8fafc; color: #64748b; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; padding: 15px; border: none; }
@@ -39,11 +42,11 @@
 </head>
 <body>
 
-<!-- Sidebar (Integrated from Dashboard) -->
+<!-- Sidebar -->
 <div class="sidebar">
     <div class="p-4 text-center">
-        <h4 class="fw-bold m-0 text-info"><i class="fas fa-store me-2"></i>SariStore</h4>
-        <small class="text-muted">Admin System</small>
+        <h4 class="fw-bold m-0"><i class="fas fa-store text-info me-2"></i>Arlin's Sari-Sari Store</h4>
+        <small class="text-muted">Admin Dashboard</small>
     </div>
     <hr class="mx-3 opacity-25">
     <nav class="mt-3">
@@ -54,15 +57,25 @@
         <a href="<?= base_url('utang') ?>" class="nav-link"><i class="fas fa-hand-holding-usd"></i> Utang Tracking</a>
         <a href="<?= base_url('users') ?>" class="nav-link active"><i class="fas fa-user-shield"></i> User Management</a>
     </nav>
+    
+    <div class="sidebar-bottom">
+        <hr class="mx-3 opacity-25">
+        <a href="<?= base_url('logout') ?>" class="nav-link logout-nav-link">
+            <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+        </a>
+    </div>
 </div>
 
 <!-- Main Content -->
 <div class="main-content">
     <div class="top-nav">
-        <h5 class="m-0 fw-bold"><i class="fas fa-users-cog text-primary me-2"></i> Staff & Admin Accounts</h5>
-        <button class="btn btn-primary px-4 py-2 rounded-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#addUserModal">
-            <i class="fas fa-plus-circle me-2"></i> Add New User
-        </button>
+        <h5 class="m-0 fw-semibold text-secondary">User Management</h5>
+        <div class="d-flex align-items-center">
+            <span class="me-3 text-muted small">Welcome, <?= session()->get('name') ?></span>
+            <button class="btn btn-primary px-4 py-2 rounded-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                <i class="fas fa-plus-circle me-2"></i> Add New User
+            </button>
+        </div>
     </div>
 
     <!-- Alert Success -->
