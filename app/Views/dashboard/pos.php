@@ -95,10 +95,10 @@
                 </div>
                 <div class="cart-items" id="cartItems">
                     <!-- Cart items will appear here -->
-                    <div class="text-center text-muted mt-5 py-5" id="emptyCartMsg">
-                        <i class="fas fa-cart-plus fs-1 mb-3 opacity-25"></i>
-                        <p>Cart is empty</p>
-                    </div>
+                </div>
+                <div class="text-center text-muted mt-5 py-5" id="emptyCartMsg">
+                    <i class="fas fa-cart-plus fs-1 mb-3 opacity-25"></i>
+                    <p>Cart is empty</p>
                 </div>
                 <div class="cart-total">
                     <div class="mb-3">
@@ -186,7 +186,6 @@
         
         if (cart.length === 0) {
             container.innerHTML = '';
-            container.appendChild(emptyMsg);
             emptyMsg.classList.remove('d-none');
             updateTotals(0);
             return;
@@ -196,14 +195,16 @@
         container.innerHTML = cart.map(item => `
             <div class="cart-item">
                 <div>
-                    <div class="fw-bold small">${item.name}</div>
-                    <div class="text-muted smaller">₱${item.price.toFixed(2)} x ${item.qty}</div>
+                    <div class="fw-bold small text-truncate" style="max-width: 150px;">${item.name}</div>
+                    <div class="text-muted" style="font-size: 0.75rem;">₱${item.price.toFixed(2)} x ${item.qty}</div>
                 </div>
                 <div class="d-flex align-items-center">
-                    <button class="btn btn-sm btn-light border p-1 px-2 me-2" onclick="updateQty(${item.id}, -1)">-</button>
-                    <span class="fw-bold me-2">${item.qty}</span>
-                    <button class="btn btn-sm btn-light border p-1 px-2 me-3" onclick="updateQty(${item.id}, 1)">+</button>
-                    <div class="fw-bold">₱${(item.price * item.qty).toFixed(2)}</div>
+                    <div class="input-group input-group-sm me-2" style="width: 100px;">
+                        <button class="btn btn-outline-secondary" onclick="updateQty(${item.id}, -1)">-</button>
+                        <input type="text" class="form-control text-center bg-white" value="${item.qty}" readonly>
+                        <button class="btn btn-outline-secondary" onclick="updateQty(${item.id}, 1)">+</button>
+                    </div>
+                    <div class="fw-bold text-end" style="min-width: 70px;">₱${(item.price * item.qty).toFixed(2)}</div>
                 </div>
             </div>
         `).join('');
