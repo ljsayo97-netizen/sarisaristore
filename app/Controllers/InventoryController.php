@@ -16,7 +16,7 @@ class InventoryController extends BaseController
 
     public function index()
     {
-        $data['products'] = $this->inventoryModel->orderBy('product_id', 'DESC')->findAll();
+        $data['products'] = $this->inventoryModel->where('stock >', 0)->orderBy('product_id', 'DESC')->findAll();
         return view('dashboard/inventory', $data);
     }
 
