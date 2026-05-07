@@ -22,7 +22,11 @@ class SalesController extends BaseController
 
     public function index()
     {
-        $data['products'] = $this->inventoryModel->where('stock >', 0)->orderBy('name', 'ASC')->findAll();
+        $customerModel = new \App\Models\CustomerModel();
+        $data = [
+            'products' => $this->inventoryModel->where('stock >', 0)->orderBy('name', 'ASC')->findAll(),
+            'customers' => $customerModel->orderBy('name', 'ASC')->findAll()
+        ];
         return view('dashboard/pos', $data);
     }
 
@@ -31,13 +35,19 @@ class SalesController extends BaseController
         $cart = $this->request->getPost('cart');
         $cash = $this->request->getPost('cash');
         $total = $this->request->getPost('total_amount');
+        $isUtang = $this->request->getPost('is_utang') === 'true';
+        $customerId = $this->request->getPost('customer_id');
 
         if (empty($cart) || !is_array($cart)) {
             return $this->response->setJSON(['status' => 'error', 'message' => 'Cart is empty']);
         }
 
-        if ($cash < $total) {
+        if (!$isUtang && $cash < $total) {
             return $this->response->setJSON(['status' => 'error', 'message' => 'Insufficient cash']);
+        }
+
+        if ($isUtang && empty($customerId)) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Please select a customer for Utang']);
         }
 
         $db = \Config\Database::connect();
@@ -47,14 +57,26 @@ class SalesController extends BaseController
         $saleData = [
             'date'          => date('Y-m-d H:i:s'),
             'total_amount'  => $total,
-            'cash'          => $cash,
-            'change_amount' => $cash - $total,
+            'cash'          => $isUtang ? 0 : $cash,
+            'change_amount' => $isUtang ? 0 : ($cash - $total),
             'user_id'       => session()->get('id')
         ];
         $this->saleModel->insert($saleData);
         $saleId = $this->saleModel->getInsertID();
 
-        // 2. Create Sale Items and Update Stock
+        // 2. Create Utang Record if applicable
+        if ($isUtang) {
+            $utangModel = new \App\Models\UtangModel();
+            $utangModel->save([
+                'customer_id' => $customerId,
+                'sale_id'     => $saleId,
+                'amount'      => $total,
+                'status'      => 'unpaid',
+                'date'        => date('Y-m-d H:i:s')
+            ]);
+        }
+
+        // 3. Create Sale Items and Update Stock
         foreach ($cart as $item) {
             $product = $this->inventoryModel->find($item['id']);
             

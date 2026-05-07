@@ -101,6 +101,15 @@
                     </div>
                 </div>
                 <div class="cart-total">
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Customer (Required for Utang)</label>
+                        <select id="customerId" class="form-select border-2">
+                            <option value="">Walk-in Customer</option>
+                            <?php foreach($customers as $c): ?>
+                                <option value="<?= $c['customer_id'] ?>"><?= esc($c['name']) ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-muted">Subtotal</span>
                         <span class="fw-bold" id="subtotal">₱0.00</span>
@@ -109,17 +118,28 @@
                         <h5 class="fw-bold">Total</h5>
                         <h5 class="fw-bold text-primary" id="totalAmount">₱0.00</h5>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label small text-muted">Cash Amount (₱)</label>
-                        <input type="number" id="cashAmount" class="form-control form-control-lg fw-bold text-success border-2" placeholder="0.00">
+                    <div id="cashInputArea">
+                        <div class="mb-3">
+                            <label class="form-label small text-muted">Cash Amount (₱)</label>
+                            <input type="number" id="cashAmount" class="form-control form-control-lg fw-bold text-success border-2" placeholder="0.00">
+                        </div>
+                        <div class="d-flex justify-content-between mb-4">
+                            <span class="text-muted">Change</span>
+                            <span class="fw-bold text-danger" id="changeAmount">₱0.00</span>
+                        </div>
                     </div>
-                    <div class="d-flex justify-content-between mb-4">
-                        <span class="text-muted">Change</span>
-                        <span class="fw-bold text-danger" id="changeAmount">₱0.00</span>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <button class="btn btn-outline-danger w-100 py-3 fw-bold rounded-3" onclick="processCheckout(true)">
+                                <i class="fas fa-hand-holding-usd me-1"></i> UTANG
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-success w-100 py-3 fw-bold rounded-3" onclick="processCheckout(false)">
+                                <i class="fas fa-check-circle me-1"></i> CASH
+                            </button>
+                        </div>
                     </div>
-                    <button class="btn-checkout" onclick="processCheckout()">
-                        <i class="fas fa-check-circle me-2"></i> COMPLETE SALE
-                    </button>
                 </div>
             </div>
         </div>
@@ -207,20 +227,30 @@
 
     document.getElementById('cashAmount').addEventListener('input', calculateChange);
 
-    function processCheckout() {
+    function processCheckout(isUtang) {
         if (cart.length === 0) return Swal.fire('Error', 'Cart is empty', 'error');
         
         const total = parseFloat(document.getElementById('totalAmount').innerText.replace('₱', ''));
         const cash = parseFloat(document.getElementById('cashAmount').value) || 0;
+        const customerId = document.getElementById('customerId').value;
 
-        if (cash < total) return Swal.fire('Error', 'Insufficient cash amount', 'error');
+        if (isUtang && !customerId) {
+            return Swal.fire('Error', 'Please select a customer for Utang', 'error');
+        }
+
+        if (!isUtang && cash < total) {
+            return Swal.fire('Error', 'Insufficient cash amount', 'error');
+        }
+
+        const title = isUtang ? 'Mark as Utang?' : 'Complete Cash Sale?';
+        const text = isUtang ? `This will be recorded as debt for the selected customer.` : `Total: ₱${total.toFixed(2)} | Change: ₱${(cash-total).toFixed(2)}`;
 
         Swal.fire({
-            title: 'Complete Sale?',
-            text: `Total: ₱${total.toFixed(2)} | Change: ₱${(cash-total).toFixed(2)}`,
+            title: title,
+            text: text,
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: 'Yes, Complete Sale'
+            confirmButtonText: 'Yes, Proceed'
         }).then((result) => {
             if (result.isConfirmed) {
                 const formData = new FormData();
@@ -230,6 +260,8 @@
                 });
                 formData.append('cash', cash);
                 formData.append('total_amount', total);
+                formData.append('is_utang', isUtang);
+                formData.append('customer_id', customerId);
 
                 fetch('<?= base_url('sales/store') ?>', {
                     method: 'POST',
@@ -239,7 +271,10 @@
                 .then(res => res.json())
                 .then(data => {
                     if (data.status === 'success') {
-                        Swal.fire('Success', data.message + '\nChange: ₱' + data.change, 'success')
+                        let successMsg = data.message;
+                        if (!isUtang) successMsg += '\nChange: ₱' + data.change;
+                        
+                        Swal.fire('Success', successMsg, 'success')
                         .then(() => location.reload());
                     } else {
                         Swal.fire('Error', data.message, 'error');

@@ -119,8 +119,8 @@
                         <tr>
                             <th>Date</th>
                             <th>Customer</th>
-                            <th>Product</th>
-                            <th>Amount</th>
+                            <th>Details</th>
+                            <th>Total Amount</th>
                             <th>Status</th>
                             <th class="text-center">Actions</th>
                         </tr>
@@ -131,7 +131,13 @@
                                 <tr>
                                     <td class="small text-muted"><?= date('M j, Y h:i A', strtotime($utang['date'])) ?></td>
                                     <td class="fw-bold"><?= esc($utang['customer_name']) ?></td>
-                                    <td><?= esc($utang['product_name']) ?></td>
+                                    <td>
+                                        <?php if($utang['sale_id']): ?>
+                                            <span class="text-muted small">Multi-item Order #<?= $utang['sale_id'] ?></span>
+                                        <?php else: ?>
+                                            <?= esc($utang['product_name']) ?>
+                                        <?php endif; ?>
+                                    </td>
                                     <td class="fw-bold text-primary">₱<?= number_format($utang['amount'], 2) ?></td>
                                     <td>
                                         <span class="badge px-3 py-2 <?= $utang['status'] == 'paid' ? 'badge-paid' : 'badge-unpaid' ?>">
