@@ -16,7 +16,11 @@ $routes->get('logout', 'AuthController::logout');
 // --- 2. Dashboard Routes ---
 $routes->get('dashboard', 'DashboardController::index');
 
-// --- 3. Inventory Management CRUD Routes ---
+// --- 3. Sales & POS Routes ---
+$routes->get('sales', 'SalesController::index');
+$routes->post('sales/store', 'SalesController::store');
+
+// --- 4. Inventory Management CRUD Routes ---
 $routes->get('inventory', 'InventoryController::index');             
 $routes->post('inventory/store', 'InventoryController::store');      
 $routes->post('inventory/update/(:num)', 'InventoryController::update/$1'); 

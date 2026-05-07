@@ -85,7 +85,7 @@
 
     <!-- Quick Actions -->
     <div class="mb-4">
-        <a href="#" class="quick-action-btn"><i class="fas fa-plus-circle text-success"></i> New Sale</a>
+        <a href="<?= base_url('sales') ?>" class="quick-action-btn"><i class="fas fa-plus-circle text-success"></i> New Sale (POS)</a>
         <a href="<?= base_url('inventory') ?>" class="quick-action-btn"><i class="fas fa-box-open text-primary"></i> Add Product</a>
         <a href="<?= base_url('customers') ?>" class="quick-action-btn"><i class="fas fa-user-plus text-info"></i> New Customer</a>
     </div>

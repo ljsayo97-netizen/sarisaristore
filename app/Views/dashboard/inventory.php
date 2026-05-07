@@ -42,7 +42,7 @@
     <nav class="mt-3">
         <a href="<?= base_url('dashboard') ?>" class="nav-link"><i class="fas fa-chart-line"></i> Dashboard</a>
         <a href="<?= base_url('inventory') ?>" class="nav-link active"><i class="fas fa-boxes"></i> Inventory</a>
-        <a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i> Sales Tracking</a>
+        <a href="<?= base_url('sales') ?>" class="nav-link"><i class="fas fa-shopping-cart"></i> Sales Tracking</a>
         <a href="<?= base_url('customers') ?>" class="nav-link"><i class="fas fa-users"></i> Customers</a>
         <a href="<?= base_url('utang') ?>" class="nav-link"><i class="fas fa-hand-holding-usd"></i> Utang Tracking</a>
         <a href="<?= base_url('users') ?>" class="nav-link"><i class="fas fa-user-shield"></i> User Management</a>
