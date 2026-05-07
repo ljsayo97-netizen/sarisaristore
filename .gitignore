@@ -1,0 +1,21 @@
+# CodeIgniter 4 .gitignore
+/vendor/
+/.env
+/writable/
+/public/index.php
+/public/.htaccess
+/spark
+/phpunit.xml.dist
+/check_db.php
+/fix_customers.php
+/fix_customers_v2.php
+/check_migrations_schema.php
+/finalize_migration.php
+
+# IDEs
+.vscode/
+.idea/
+
+# OS files
+Thumbs.db
+.DS_Store

@@ -15,9 +15,20 @@ $routes->get('logout', 'AuthController::logout');
 
 // --- 2. Dashboard Routes ---
 $routes->get('dashboard', 'DashboardController::index');
-$routes->get('inventory', 'DashboardController::inventory'); // Placeholder for your items
 
-// --- 3. User Management CRUD Routes ---
+// --- 3. Inventory Management CRUD Routes ---
+$routes->get('inventory', 'InventoryController::index');             
+$routes->post('inventory/store', 'InventoryController::store');      
+$routes->post('inventory/update/(:num)', 'InventoryController::update/$1'); 
+$routes->get('inventory/delete/(:num)', 'InventoryController::delete/$1');  
+
+// --- 4. Customer Management CRUD Routes ---
+$routes->get('customers', 'CustomerController::index');             
+$routes->post('customers/store', 'CustomerController::store');      
+$routes->post('customers/update/(:num)', 'CustomerController::update/$1'); 
+$routes->get('customers/delete/(:num)', 'CustomerController::delete/$1');  
+
+// --- 5. User Management CRUD Routes ---
 // These routes handle the User management logic
 $routes->get('users', 'UserController::index');             // View the list of users
 $routes->post('users/store', 'UserController::store');      // Save a new user

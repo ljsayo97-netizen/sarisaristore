@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Management - Sari-Sari Store</title>
+    <title>Product Management - Sari-Sari Store</title>
     <!-- Bootstrap 5, Icons & Fonts -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -50,8 +50,8 @@
         <a href="<?= base_url('dashboard') ?>" class="nav-link"><i class="fas fa-chart-line"></i> Dashboard</a>
         <a href="#" class="nav-link"><i class="fas fa-boxes"></i> Inventory</a>
         <a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i> Sales Tracking</a>
-        <a href="<?= base_url('users') ?>" class="nav-link active"><i class="fas fa-user-shield"></i> User Management</a>
-        
+        <a href="<?= base_url('users') ?>" class="nav-link"><i class="fas fa-user-shield"></i> User Management</a>
+        <a href="<?= base_url('products') ?>" class="nav-link active"><i class="fas fa-box-open"></i> Product Management</a>
     </nav>
 </div>
 
@@ -76,10 +76,9 @@
             <table class="table mb-0">
                 <thead>
                     <tr>
-                        <th>Full Name</th>
-                        <th>Email Address</th>
-                        <th>User Role</th>
-                        <th>Created At</th>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Stock</th>
                         <th class="text-center">Actions</th>
                     </tr>
                 </thead>
@@ -118,25 +117,20 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <form action="<?= base_url('users/update/'.$user['id']) ?>" method="POST" class="modal-content">
                                 <div class="modal-header py-3">
-                                    <h6 class="modal-title fw-bold"><i class="fas fa-user-edit me-2"></i> Update User Information</h6>
+                                    <h6 class="modal-title fw-bold"><i class="fas fa-user-edit me-2"></i> Update Product Information</h6>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body p-4">
                                     <div class="mb-3">
-                                        <label class="form-label small fw-bold text-muted">Full Name</label>
+                                        <label class="form-label small fw-bold text-muted">Product Name</label>
                                         <input type="text" name="name" class="form-control form-control-lg border-light bg-light" value="<?= esc($user['name']) ?>" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label small fw-bold text-muted">Email Address</label>
-                                        <input type="email" name="email" class="form-control form-control-lg border-light bg-light" value="<?= esc($user['email']) ?>" required>
+
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label class="form-label small fw-bold text-muted">Role</label>
-                                            <select name="role" class="form-select form-control-lg border-light bg-light">
-                                                <option value="staff" <?= $user['role'] == 'staff' ? 'selected' : '' ?>>Staff</option>
-                                                <option value="admin" <?= $user['role'] == 'admin' ? 'selected' : '' ?>>Admin</option>
-                                            </select>
+                                            
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label class="form-label small fw-bold text-muted">New Password</label>

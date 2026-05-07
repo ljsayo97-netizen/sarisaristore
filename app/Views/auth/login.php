@@ -18,7 +18,9 @@
         <div class="col-md-4">
             <div class="card p-4">
                 <div class="text-center mb-4">
-                    <h3 class="fw-bold">Sari-Sari Store</h3>
+                    <h3 class="fw-bold">Arlin Sari-Sari Store</h3>
+                    <p class="login-box-msg">
+        <img src="<?= base_url('assets/img/arlin.png') ?>" width="30%">
                     <p class="text-muted">Login to manage your store</p>
                 </div>
 
