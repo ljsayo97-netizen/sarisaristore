@@ -28,7 +28,13 @@ $routes->post('customers/store', 'CustomerController::store');
 $routes->post('customers/update/(:num)', 'CustomerController::update/$1'); 
 $routes->get('customers/delete/(:num)', 'CustomerController::delete/$1');  
 
-// --- 5. User Management CRUD Routes ---
+// --- 5. Utang (Debit) Tracking Routes ---
+$routes->get('utang', 'UtangController::index');
+$routes->post('utang/store', 'UtangController::store');
+$routes->get('utang/update-status/(:num)/(:any)', 'UtangController::updateStatus/$1/$2');
+$routes->get('utang/delete/(:num)', 'UtangController::delete/$1');
+
+// --- 6. User Management CRUD Routes ---
 // These routes handle the User management logic
 $routes->get('users', 'UserController::index');             // View the list of users
 $routes->post('users/store', 'UserController::store');      // Save a new user

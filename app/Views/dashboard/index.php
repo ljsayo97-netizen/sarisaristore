@@ -63,6 +63,7 @@
         <a href="<?= base_url('inventory') ?>" class="nav-link"><i class="fas fa-boxes"></i> <span>Inventory</span></a>
         <a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i> <span>Sales Tracking</span></a>
         <a href="<?= base_url('customers') ?>" class="nav-link"><i class="fas fa-users"></i> <span>Customers</span></a>
+        <a href="<?= base_url('utang') ?>" class="nav-link"><i class="fas fa-hand-holding-usd"></i> <span>Utang Tracking</span></a>
         <a href="<?= base_url('users') ?>" class="nav-link"><i class="fas fa-user-shield"></i> <span>User Management</span></a>
     </nav>
 </div>
