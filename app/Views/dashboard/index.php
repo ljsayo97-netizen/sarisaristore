@@ -67,6 +67,7 @@
         <a href="<?= base_url('customers') ?>" class="nav-link"><i class="fas fa-users"></i> <span>Customers</span></a>
         <a href="<?= base_url('utang') ?>" class="nav-link"><i class="fas fa-hand-holding-usd"></i> <span>Utang Tracking</span></a>
         <a href="<?= base_url('users') ?>" class="nav-link"><i class="fas fa-user-shield"></i> <span>User Management</span></a>
+        <a href="<?= base_url('activity-logs') ?>" class="nav-link"><i class="fas fa-history"></i> <span>Staff Logs</span></a>
     </nav>
     
     <div class="sidebar-bottom">

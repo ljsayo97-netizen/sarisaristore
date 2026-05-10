@@ -60,6 +60,16 @@ class AuthController extends BaseController
             if(password_verify($password, $data['password'])){
                 $ses_data = ['id'=>$data['id'], 'name'=>$data['name'], 'email'=>$data['email'], 'isLoggedIn'=>TRUE];
                 $session->set($ses_data);
+
+                // --- RECORD LOGIN LOG ---
+                $activityModel = new \App\Models\UserActivityModel();
+                $activityModel->insert([
+                    'user_id' => $data['id'],
+                    'action' => 'login',
+                    'timestamp' => date('Y-m-d H:i:s'),
+                    'ip_address' => $this->request->getIPAddress()
+                ]);
+
                 return redirect()->to('/dashboard');
             }
         }
@@ -70,6 +80,17 @@ class AuthController extends BaseController
 
     public function logout() 
     {
+        // --- RECORD LOGOUT LOG ---
+        if (session()->get('isLoggedIn')) {
+            $activityModel = new \App\Models\UserActivityModel();
+            $activityModel->insert([
+                'user_id' => session()->get('id'),
+                'action' => 'logout',
+                'timestamp' => date('Y-m-d H:i:s'),
+                'ip_address' => $this->request->getIPAddress()
+            ]);
+        }
+
         session()->destroy();
         return redirect()->to('/');
     }

@@ -44,3 +44,6 @@ $routes->get('users', 'UserController::index');             // View the list of 
 $routes->post('users/store', 'UserController::store');      // Save a new user
 $routes->post('users/update/(:num)', 'UserController::update/$1'); // Update a user
 $routes->get('users/delete/(:num)', 'UserController::delete/$1');  // Delete a user
+
+// --- 7. Activity Logs ---
+$routes->get('activity-logs', 'UserActivityController::index');
