@@ -127,51 +127,53 @@
                             </a>
                         </td>
                     </tr>
-
-                    <!-- --- EDIT USER MODAL --- -->
-                    <div class="modal fade" id="editModal<?= $user['id'] ?>" tabindex="-1">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <form action="<?= base_url('users/update/'.$user['id']) ?>" method="POST" class="modal-content">
-                                <div class="modal-header py-3">
-                                    <h6 class="modal-title fw-bold"><i class="fas fa-user-edit me-2"></i> Update User Information</h6>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <div class="modal-body p-4">
-                                    <div class="mb-3">
-                                        <label class="form-label small fw-bold text-muted">Full Name</label>
-                                        <input type="text" name="name" class="form-control form-control-lg border-light bg-light" value="<?= esc($user['name']) ?>" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label small fw-bold text-muted">Email Address</label>
-                                        <input type="email" name="email" class="form-control form-control-lg border-light bg-light" value="<?= esc($user['email']) ?>" required>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label class="form-label small fw-bold text-muted">Role</label>
-                                            <select name="role" class="form-select form-control-lg border-light bg-light">
-                                                <option value="staff" <?= $user['role'] == 'staff' ? 'selected' : '' ?>>Staff</option>
-                                                <option value="admin" <?= $user['role'] == 'admin' ? 'selected' : '' ?>>Admin</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label class="form-label small fw-bold text-muted">New Password</label>
-                                            <input type="password" name="password" class="form-control form-control-lg border-light bg-light" placeholder="Leave blank to keep">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer border-0 p-4 pt-0">
-                                    <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="submit" class="btn btn-primary px-4">Save Changes</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<!-- --- EDIT USER MODALS --- -->
+<?php foreach($users as $user): ?>
+<div class="modal fade" id="editModal<?= $user['id'] ?>" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <form action="<?= base_url('users/update/'.$user['id']) ?>" method="POST" class="modal-content">
+            <div class="modal-header py-3">
+                <h6 class="modal-title fw-bold"><i class="fas fa-user-edit me-2"></i> Update User Information</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="mb-3">
+                    <label class="form-label small fw-bold text-muted">Full Name</label>
+                    <input type="text" name="name" class="form-control form-control-lg border-light bg-light" value="<?= esc($user['name']) ?>" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small fw-bold text-muted">Email Address</label>
+                    <input type="email" name="email" class="form-control form-control-lg border-light bg-light" value="<?= esc($user['email']) ?>" required>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label small fw-bold text-muted">Role</label>
+                        <select name="role" class="form-select form-control-lg border-light bg-light">
+                            <option value="staff" <?= $user['role'] == 'staff' ? 'selected' : '' ?>>Staff</option>
+                            <option value="admin" <?= $user['role'] == 'admin' ? 'selected' : '' ?>>Admin</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label small fw-bold text-muted">New Password</label>
+                        <input type="password" name="password" class="form-control form-control-lg border-light bg-light" placeholder="Leave blank to keep">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 p-4 pt-0">
+                <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+<?php endforeach; ?>
 
 <!-- --- ADD USER MODAL --- -->
 <div class="modal fade" id="addUserModal" tabindex="-1">
