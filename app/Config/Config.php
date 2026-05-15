@@ -1,9 +1,9 @@
 <?php
 // config.php
 $host = 'localhost';
-$user = 'user';      // Change to your database username
-$password = '';      // Change to your database password
-$database = 'user';  // Change to your database name
+$user = 'user';      
+$password = 'password';      
+$database = 'user';  
 
 $conn = new mysqli($host, $user, $password, $database);
 

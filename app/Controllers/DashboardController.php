@@ -33,10 +33,24 @@ class DashboardController extends BaseController
                                 ->first();
         $profitValue = $todayProfit['total_amount'] ?? 0;
 
-        // 5. Recent Transactions (Join with users for names if available)
+        // 5. Trends (Compared to Yesterday)
+        $yesterday = date('Y-m-d', strtotime('-1 day'));
+        $yesterdaySalesCount = $saleModel->where('date >=', $yesterday . ' 00:00:00')
+                                        ->where('date <=', $yesterday . ' 23:59:59')
+                                        ->countAllResults();
+        $yesterdayProfit = $saleModel->selectSum('total_amount')
+                                    ->where('date >=', $yesterday . ' 00:00:00')
+                                    ->where('date <=', $yesterday . ' 23:59:59')
+                                    ->first();
+        $yesterdayProfitValue = $yesterdayProfit['total_amount'] ?? 0;
+
+        $profitTrend = $this->calculateTrend($profitValue, $yesterdayProfitValue);
+        $salesTrend = $this->calculateTrend($todaySalesCount, $yesterdaySalesCount);
+
+        // 6. Recent Transactions (Join with users for names if available)
         $recentTransactions = $saleModel->orderBy('date', 'DESC')->limit(5)->findAll();
 
-        // 6. Data for Sales Chart (Last 7 days)
+        // 7. Data for Sales Chart (Last 7 days)
         $chartData = $this->getSalesChartData($saleModel);
 
         $data = [
@@ -44,12 +58,27 @@ class DashboardController extends BaseController
             'lowStockItems' => $lowStockItems,
             'todaySalesCount' => $todaySalesCount,
             'todayProfit' => number_format($profitValue, 2),
+            'profitTrend' => $profitTrend,
+            'salesTrend' => $salesTrend,
             'recentTransactions' => $recentTransactions,
             'chartLabels' => json_encode($chartData['labels']),
             'chartValues' => json_encode($chartData['values']),
         ];
 
         return view('dashboard/index', $data);
+    }
+
+    private function calculateTrend($current, $previous)
+    {
+        if ($previous == 0) {
+            return $current > 0 ? ['value' => 100, 'type' => 'up'] : ['value' => 0, 'type' => 'flat'];
+        }
+
+        $change = (($current - $previous) / $previous) * 100;
+        return [
+            'value' => abs(round($change, 1)),
+            'type' => $change > 0 ? 'up' : ($change < 0 ? 'down' : 'flat')
+        ];
     }
 
     private function getSalesChartData($saleModel)
